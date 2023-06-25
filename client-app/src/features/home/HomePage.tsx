@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
-import { Container } from "semantic-ui-react";
+import { Button, Container, Header, Image, Segment } from "semantic-ui-react";
 
 export default function HomePage() {
-    return (
-        <Container id="body-container2">
-            <h1>Home Page</h1>
-            <h3>Go to <Link to="/activities">Activities</Link></h3>
-        </Container>
-    )
+  return (
+    <Segment inverted textAlign="center" vertical className="masthead">
+      <Container text>
+        <Header as="h1" inverted>
+          <Image size="massive" src="/assets/Type_Imaginary.png" alt="logo" id="home-page-logo"/>
+          Event Social App
+        </Header>
+        <Header as="h2"inverted content="Welcome to E.S.A" />
+        <Button as={Link} to="/activities" size="huge" inverted>
+          Let's go see the events!
+        </Button>
+      </Container>
+    </Segment>
+  );
 }
