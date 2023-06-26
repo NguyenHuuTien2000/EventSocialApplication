@@ -12,6 +12,7 @@ export default function NavBar() {
           Event Social App
         </Menu.Item>
         <Menu.Item as={NavLink} to="/activities" name="Activities" />
+        <Menu.Item as={NavLink} to="/errors" name="Errors" />
         <Menu.Item>
           <Button as={NavLink} to="/createActivity" color="teal" content="Create Activity" />
         </Menu.Item>
