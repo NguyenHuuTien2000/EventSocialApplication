@@ -68,8 +68,15 @@ const Activities = {
     delete: (id: string) => request.del<void>(`/activities/${id}`)
 }
 
+const Account = {
+    current: () => request.get<User>("/account"),
+    login: (user: UserFormValues) => request.post<User>("/account/login", user),
+    register: (user: UserFormValues) => request.post<User>("/account/register", user)
+}
+
 const agent = {
-    Activities
+    Activities,
+    Account
 }
 
 export default agent
