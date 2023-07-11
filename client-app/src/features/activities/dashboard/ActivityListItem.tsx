@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button, Icon, Item, Segment } from "semantic-ui-react";
+import { Button, Icon, Image, Item, ItemGroup, ItemImage, Popup, PopupContent, PopupHeader, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import { format } from "date-fns";
 
@@ -31,7 +31,22 @@ export default function ActivityListItem({activity}: Props) {
           <Icon name="marker" />{activity.venue}
         </span>
       </Segment>
-      <Segment secondary>Attendees go here</Segment>
+      <Segment secondary>
+        {/* <ItemGroup horizontal>
+          <ItemImage avatar size="small" circular src="/assets/user2.jpg" />
+          &emsp;
+          <Popup trigger={<ItemImage size="small" avatar circular src="/assets/user3.jpg" />} position="right center">
+            <Image size="medium" src="/assets/user3.jpg"/>
+            <hr/>
+            <PopupHeader style={{textAlign: "center"}}>Kane</PopupHeader>
+            <Segment secondary>
+              18 Followers
+            </Segment>
+            <Button positive content="Follow" color="green" fluid/>
+          </Popup>
+        </ItemGroup> */}
+        Attendees go here
+      </Segment>
       <Segment clearing>
         <span>{activity.description}</span>
         <Button 

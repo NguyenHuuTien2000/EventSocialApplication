@@ -5,9 +5,9 @@ export interface User {
     image?: string;
 }
 
-export interface UserFormValues extends User {
+export interface UserFormValues {
     email: string;
     password: string;
-    displayName: string;
-    username: string;
+    displayName?: string;
+    username?: string;
 }

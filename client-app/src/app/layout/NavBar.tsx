@@ -1,8 +1,10 @@
 import React from "react";
-import { Button, Container, Menu } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import { Button, Container, Dropdown, Image, Menu } from "semantic-ui-react";
+import { Link, NavLink } from "react-router-dom";
+import { useStore } from "../stores/store";
 
 export default function NavBar() {
+  const {userStore: {user, logout}} = useStore()
 
   return (
     <Menu inverted fixed="top">
@@ -15,6 +17,16 @@ export default function NavBar() {
         <Menu.Item as={NavLink} to="/errors" name="Errors" />
         <Menu.Item>
           <Button as={NavLink} to="/createActivity" color="teal" content="Create Event" />
+        </Menu.Item>
+        <Menu.Item position="right">
+          <Image avatar spaced="right" src={user?.image || "/assets/user.png"} />
+          <Dropdown pointing="top left" text={user?.displayName}>
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to={`/profile/${user?.username}`} text="My Profile" icon="user" />
+              <Dropdown.Item as={Link} to={"/fakeprofile"} text="Fake Profile" icon="user" />
+              <Dropdown.Item onClick={logout} text="Logout" icon="power" />
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu.Item>
       </Container>
     </Menu>
