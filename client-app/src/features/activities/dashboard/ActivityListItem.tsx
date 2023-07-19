@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Button, Icon, Image, Item, ItemGroup, ItemImage, Popup, PopupContent, PopupHeader, Segment } from "semantic-ui-react";
+import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import { format } from "date-fns";
+import ActivityListItemAttendee from "./ActivityListItemAttendee";
 
 interface Props {
   activity: Activity
@@ -13,14 +14,27 @@ export default function ActivityListItem({activity}: Props) {
   return (
     <Segment.Group>
       <Segment>
+        {activity.isCancelled && (
+          <Label attached="top" style={{ textAlign: "center" }} color="red" content="Cancelled" />
+        )}
         <Item.Group>
           <Item>
-            <Item.Image size="tiny" circular src="/assets/user.png" />
+            <Item.Image style={{ marginBottom: 3 }} size="tiny" circular src="/assets/user.png" />
             <Item.Content>
               <Item.Header as={Link} to={`/activities/${activity.id}`}>
                 {activity.title}
               </Item.Header>
-              <Item.Description>Hosted by Maribel</Item.Description>
+              <Item.Description>Hosted by {activity.host?.displayName}</Item.Description>
+              {activity.isHost && (
+                <Item.Description>
+                  <Label color="orange">You are hosting this event</Label>
+                </Item.Description>
+              )}
+              {activity.isGoing && !activity.isHost && (
+                <Item.Description>
+                  <Label color="green">You are going to this event</Label>
+                </Item.Description>
+              )}
             </Item.Content>
           </Item>
         </Item.Group>
@@ -32,20 +46,7 @@ export default function ActivityListItem({activity}: Props) {
         </span>
       </Segment>
       <Segment secondary>
-        {/* <ItemGroup horizontal>
-          <ItemImage avatar size="small" circular src="/assets/user2.jpg" />
-          &emsp;
-          <Popup trigger={<ItemImage size="small" avatar circular src="/assets/user3.jpg" />} position="right center">
-            <Image size="medium" src="/assets/user3.jpg"/>
-            <hr/>
-            <PopupHeader style={{textAlign: "center"}}>Kane</PopupHeader>
-            <Segment secondary>
-              18 Followers
-            </Segment>
-            <Button positive content="Follow" color="green" fluid/>
-          </Popup>
-        </ItemGroup> */}
-        Attendees go here
+        <ActivityListItemAttendee attendees={activity.attendees!} />
       </Segment>
       <Segment clearing>
         <span>{activity.description}</span>
@@ -54,8 +55,7 @@ export default function ActivityListItem({activity}: Props) {
           to={`/activities/${activity.id}`}
           color="teal"
           floated="right"
-          content="View"
-        />
+          content="View"/>
       </Segment>
     </Segment.Group>
   );
