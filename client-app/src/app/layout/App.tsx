@@ -27,8 +27,8 @@ function App() {
   return (
 
     <Fragment>
-      <ModalContainer />
       <ToastContainer position="bottom-right" hideProgressBar theme="colored"/>
+      <ModalContainer />
       {location.pathname === "/" ? <HomePage /> : (
         <Fragment>
           <NavBar/>
