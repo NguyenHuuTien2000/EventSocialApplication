@@ -1,9 +1,7 @@
-import { Fragment } from "react";
 import {
   Grid,
   Menu,
   Segment,
-  Image,
   SegmentGroup,
   Item,
 } from "semantic-ui-react";

@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Container, Dropdown, Image, Menu } from "semantic-ui-react";
 import { Link, NavLink } from "react-router-dom";
 import { useStore } from "../stores/store";
@@ -22,8 +21,7 @@ export default function NavBar() {
           <Image avatar spaced="right" src={user?.image || "/assets/user.png"} />
           <Dropdown pointing="top left" text={user?.displayName}>
             <Dropdown.Menu>
-              <Dropdown.Item as={Link} to={`/profile/${user?.username}`} text="My Profile" icon="user" />
-              <Dropdown.Item as={Link} to={"/fakeprofile"} text="Fake Profile" icon="user" />
+              <Dropdown.Item as={Link} to={`/profiles/${user?.username}`} text="My Profile" icon="user" />
               <Dropdown.Item onClick={logout} text="Logout" icon="power" />
             </Dropdown.Menu>
           </Dropdown>

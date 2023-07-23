@@ -43,14 +43,13 @@ export default observer(function ActivityDetailedChat() {
                             </Comment.Actions>
                         </Comment.Content>
                     </Comment>
-
                     <Form reply>
                         <Form.TextArea/>
                         <Button
                             content='Add Reply'
                             labelPosition='left'
                             icon='edit'
-                            primary
+                            color='purple'
                         />
                     </Form>
                 </Comment.Group>

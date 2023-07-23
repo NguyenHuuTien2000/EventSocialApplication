@@ -89,7 +89,7 @@ export default observer(function ActivityForm() {
               floated="right"
               type="button"
               content="Cancel"
-              color="pink" />
+              color="purple" />
           </Form>
         )}
       </Formik>
