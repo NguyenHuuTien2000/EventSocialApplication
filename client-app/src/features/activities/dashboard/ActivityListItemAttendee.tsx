@@ -10,8 +10,8 @@ interface Props {
 
 export default observer(function ActivityListItemAttendees({ attendees }: Props) {
   const style = {
-    boderColor: 'orange',
-    borderWidth: 2
+    borderColor: 'orange',
+    borderWidth: 3
   }
   return (
     <List horizontal>
