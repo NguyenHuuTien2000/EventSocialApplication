@@ -16,7 +16,7 @@ namespace API.DTOs
 
 
         [Required]
-        [RegularExpression("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$", ErrorMessage = "Password is not strong enough")]
+        [RegularExpression("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,16}$", ErrorMessage = "Password is not strong enough")]
         public string Password { get; set; }
     }
 }
