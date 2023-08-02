@@ -38,13 +38,13 @@ namespace Application.Profiles
                 switch(request.Predicate)
                 {
                     case "past":
-                        query = query.Where(x => x.Date <= DateTime.Now);
+                        query = query.Where(x => x.Date <= DateTime.UtcNow);
                         break;
                     case "host":
                         query = query.Where(x => x.HostUsername == request.Username);
                         break;
                     default:
-                        query = query.Where(x => x.Date >= DateTime.Now);
+                        query = query.Where(x => x.Date >= DateTime.UtcNow);
                         break;
                 }
                 

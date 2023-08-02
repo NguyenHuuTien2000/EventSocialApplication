@@ -45,8 +45,8 @@ export default observer(function ProfileActivities() {
                   <Card.Content>
                     <Card.Header>{activity.title}</Card.Header>
                     <Card.Meta textAlign="center">
-                      <span>{format(activity.date, "dd MM yyyy")}</span>
-                      <span> {format(activity.date, "h:mm a")}</span>
+                      <span>{format(activity.date!, "dd/MM/yyyy")}</span>
+                      <span> {format(activity.date!, "h:mm aa")}</span>
                     </Card.Meta>
                   </Card.Content>
                 </Card>
