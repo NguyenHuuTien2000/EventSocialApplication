@@ -56,7 +56,7 @@ namespace API.Controllers
 
             if (!fbVerificationResponse.IsSuccessStatusCode) return Unauthorized();
 
-            var fbUrl = $"me?accessToken={accessToken}&fields=name,email,picture.width(100).height(100)";
+            var fbUrl = $"me?access_token={accessToken}&fields=name,email,picture.width(100).height(100)";
 
             var fbInfo = await _httpClient.GetFromJsonAsync<FacebookDto>(fbUrl);
 

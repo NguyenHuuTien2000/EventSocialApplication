@@ -42,7 +42,7 @@ export default observer(function HomePage() {
               onSuccess={(response : any) => {
                 userStore.facebookLogin(response.accessToken)
               }}
-              onFailure={(response : any) => {
+              onFail={(response : any) => {
                 console.log("Login failed: ", response)
               }}
             />
