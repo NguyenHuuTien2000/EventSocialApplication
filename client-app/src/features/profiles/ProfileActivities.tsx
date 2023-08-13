@@ -43,10 +43,11 @@ export default observer(function ProfileActivities() {
                 <Card as={Link} to={`/activities/${activity.id}`}  key={activity.id}>
                   <Image src={`/assets/categoryImages/${activity.category}.jpg`} style={{ minHeight: 100, objectFit: "cover" }} />
                   <Card.Content>
-                    <Card.Header>{activity.title}</Card.Header>
+                    <Card.Header textAlign="center">{activity.title}</Card.Header>
                     <Card.Meta textAlign="center">
-                      <span>{format(activity.date!, "dd/MM/yyyy")}</span>
-                      <span> {format(activity.date!, "h:mm aa")}</span>
+                      <span>{format(activity.date!, 'dd/MM/yyyy')}</span>
+                      <br/>
+                      <span>{format(activity.date!, 'h:mm aa')}</span>
                     </Card.Meta>
                   </Card.Content>
                 </Card>

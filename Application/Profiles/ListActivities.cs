@@ -23,7 +23,7 @@ namespace Application.Profiles
             private readonly IMapper _mapper;
             public Handler(DataContext context, IMapper mapper)
             {
-            _mapper = mapper;
+                _mapper = mapper;
                 _context = context;
             }
 
@@ -35,19 +35,12 @@ namespace Application.Profiles
                     .ProjectTo<UserActivityDto>(_mapper.ConfigurationProvider)
                     .AsQueryable();
 
-                switch(request.Predicate)
+                query = request.Predicate switch
                 {
-                    case "past":
-                        query = query.Where(x => x.Date <= DateTime.UtcNow);
-                        break;
-                    case "host":
-                        query = query.Where(x => x.HostUsername == request.Username);
-                        break;
-                    default:
-                        query = query.Where(x => x.Date >= DateTime.UtcNow);
-                        break;
-                }
-                
+                    "past" => query.Where(x => x.Date <= DateTime.UtcNow),
+                    "host" => query.Where(x => x.HostUsername == request.Username),
+                    _ => query.Where(x => x.Date >= DateTime.UtcNow),
+                };
                 return Result<List<UserActivityDto>>.Success( await query.ToListAsync());
             }
         }

@@ -173,6 +173,9 @@ export default class ProfileStore {
         this.loadingActivities = true
         try {
             const activities = await agent.Profiles.listActivities(username, predicate!)
+            activities.forEach(activity => {
+                activity.date = new Date(activity.date)
+            })
             runInAction(() => {
                 this.userActivities = activities
                 this.loadingActivities = false
