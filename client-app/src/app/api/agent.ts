@@ -93,7 +93,7 @@ const Account = {
     register: (user: UserFormValues) => request.post<User>("/account/register", user),
     fbLogin: (accessToken: string) => request.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {}),
     refreshToken: () => request.post<User>("/account/refreshToken", {}),
-    verifyEmail: (email: string, token : string) => request.post<void>(`/account/verifyEmail?token=${token}&email=${email}`, {}),
+    verifyEmail: (token: string, email : string) => request.post<void>(`/account/verifyEmail?token=${token}&email=${email}`, {}),
     resendEmailConfirmation: (email: string) => request.get(`/account/resendEmailConfirmationLink?email=${email}`)
 }
 
