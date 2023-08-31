@@ -33,12 +33,11 @@ export default class UserStore{
     register = async (creds: UserFormValues) => {
         try {
             await agent.Account.register(creds);
-            router.navigate(`/accounts/registerSuccess?email=${creds.username}`);
+            router.navigate(`/account/registerSuccess?email=${creds.username}`);
             store.modalStore.closeModal();
         } catch (error : any) {
             if (error?.response?.status === 400) throw error;
             store.modalStore.closeModal();
-            console.log(500);
         }
     }
 

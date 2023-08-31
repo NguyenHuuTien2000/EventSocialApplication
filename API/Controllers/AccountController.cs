@@ -128,7 +128,7 @@ namespace API.Controllers
 
             if (!result.Succeeded) return BadRequest("Problem registering user");
 
-            var origin = Request.Headers["origin"];
+            var origin = Request.Headers["Origin"];
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
