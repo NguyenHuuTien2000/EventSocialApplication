@@ -3,7 +3,7 @@ import { Activity, ActivityFormValues } from "../models/activity";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
-import { User, UserFormValues } from "../models/user";
+import { RecoverFormValues, User, UserFormValues } from "../models/user";
 import { Photo, Profile, UserActivity } from "../models/profile";
 import { PaginatedResults } from "../models/pagination";
 
@@ -94,7 +94,9 @@ const Account = {
     fbLogin: (accessToken: string) => request.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {}),
     refreshToken: () => request.post<User>("/account/refreshToken", {}),
     verifyEmail: (token: string, email : string) => request.post<void>(`/account/verifyEmail?token=${token}&email=${email}`, {}),
-    resendEmailConfirmation: (email: string) => request.get(`/account/resendEmailConfirmationLink?email=${email}`)
+    resendEmailConfirmation: (email: string) => request.get(`/account/resendEmailConfirmationLink?email=${email}`),
+    sendPasswordResetLink: (email: string) => request.get(`/account/sendPasswordResetLink?email=${email}`),
+    resetPassword: (values: RecoverFormValues) => request.post<void>(`/account/resetPassword`, values)
 }
 
 const Profiles = {

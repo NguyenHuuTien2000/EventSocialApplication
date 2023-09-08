@@ -11,3 +11,9 @@ export interface UserFormValues {
     displayName?: string;
     username?: string;
 }
+
+export interface RecoverFormValues {
+    token: string
+    email: string
+    password: string
+}

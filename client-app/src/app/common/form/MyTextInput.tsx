@@ -8,7 +8,6 @@ interface Props {
     type?: string
 }
 
-
 export default function MyTextInput(props : Props) {
     const [field, meta] = useField(props.name)
 
@@ -21,5 +20,4 @@ export default function MyTextInput(props : Props) {
             ): null}
         </Form.Field>
     )
-
 }

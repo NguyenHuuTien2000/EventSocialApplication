@@ -1,5 +1,5 @@
 import { ErrorMessage, Form, Formik} from "formik";
-import { Button, Header } from "semantic-ui-react";
+import { Button, Header, Message } from "semantic-ui-react";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
@@ -22,7 +22,7 @@ export default observer(function RegisterForm() {
 
             {({handleSubmit, isSubmitting, errors, isValid, dirty}) => (
                 <Form className="ui form error" onSubmit={handleSubmit} autoComplete="off">
-                    <Header as="h2" content="Sign Up " color="teal" textAlign="center" />
+                    <Header as="h2" content="Sign Up " color="pink" textAlign="center" />
                     <MyTextInput name="displayName" placeholder="Display Name" />
                     <MyTextInput name="username" placeholder="Username" />
                     <MyTextInput name="email" placeholder="Email" />
@@ -33,10 +33,11 @@ export default observer(function RegisterForm() {
                     <Button 
                         disabled={!isValid || !dirty || isSubmitting}
                         loading={isSubmitting} 
-                        positive 
+                        color="pink" 
                         content="Register" 
                         type="submit" 
                         fluid />
+                    <Message info content="Password must contain at least 5-10 characters, 1 uppercase, 1 lowercase and 1 number" />
                 </Form>
             )}
         </Formik>

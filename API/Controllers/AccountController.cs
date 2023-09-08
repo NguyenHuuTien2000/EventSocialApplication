@@ -161,7 +161,7 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return Unauthorized();
 
-            var origin = Request.Headers["origin"];
+            var origin = Request.Headers["Origin"];
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
@@ -171,6 +171,40 @@ namespace API.Controllers
             await _emailSender.SendEmailAsync(user.Email, "Verify Email", message);
 
             return Ok("Verification email sent");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("sendPasswordResetLink")]
+        public async Task<IActionResult> SendPasswordResetLink(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return Unauthorized("User not found");
+
+            var origin = Request.Headers["Origin"];
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+            var resetUrl = $"{origin}/account/resetPassword?token={token}&email={user.Email}";
+            var message = $"<p>Please click the below link to reset your password:</p><p><a href='{resetUrl}'>Reset Password</a></p>";
+            await _emailSender.SendEmailAsync(user.Email, "Reset Password", message);
+
+            return Ok("Password reset email sent");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword(RecoverDto recoverDto)
+        {
+            var user = await _userManager.FindByEmailAsync(recoverDto.Email);
+            if (user == null) return Unauthorized();
+            var tokenBytes = WebEncoders.Base64UrlDecode(recoverDto.Token);
+            var tokenValue = Encoding.UTF8.GetString(tokenBytes);
+
+            var result = await _userManager.ResetPasswordAsync(user, tokenValue, recoverDto.Password);
+            if (result.Succeeded) return Ok("Password reset successfully - you can now login");
+
+            return BadRequest("Reset failed");
         }
 
         [Authorize]

@@ -18,11 +18,16 @@ export default function ConfirmEmail() {
     }
 
     const [status, setStatus] = useState(Status.Pending)
+    const [emailSent, setEmailSent] = useState(false)
 
     function handleResend() {
       agent.Account.resendEmailConfirmation(email)
         .then(() => {
           toast.success("Confirmation email resent");
+          setEmailSent(true);
+          setTimeout(() => {
+            setEmailSent(false);
+          }, 60000)
         })
         .catch((error) => {
           console.log(error);
@@ -46,8 +51,8 @@ export default function ConfirmEmail() {
         case Status.Rejected:
           return (
             <Fragment>
-              <p>Verification failed - Please click the button below to resend the confirmation email</p>
-              <Button onClick={handleResend} color="purple" fluid size="huge" content="Resend Confirmation Email"/>
+              <p>Verification failed - Please click the button below to resend the confirmation email. Please wait 60 seconds before sending another request</p>
+              <Button disabled={emailSent} onClick={handleResend} color="purple" fluid size="huge" content="Resend Confirmation Email"/>
             </Fragment>
           )
         case Status.Confirmed:

@@ -34,6 +34,20 @@ body {
   width: 100%;
 }
 
+.password-segment .field {
+  max-width: 20em !important;
+}
+
+.password-segment .button {
+  max-width: 20em !important;
+}
+
+.password-icon {
+  position: absolute;
+  right: 10px;
+  top: 44%;
+}
+
 /*home page styles*/
 
 .masthead {
@@ -57,5 +71,10 @@ body {
   font-size: 1.7em;
   font-weight: normal;
 }
+
+.masthead #login-buttons {
+  padding-top: 115px;
+}
+
 
 /*end home page styles*/

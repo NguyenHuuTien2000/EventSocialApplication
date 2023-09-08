@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { User, UserFormValues } from "../models/user";
+import { RecoverFormValues, User, UserFormValues } from "../models/user";
 import agent from "../api/agent";
 import { store } from "./store";
 import { router } from "../router/Routes";
@@ -43,8 +43,8 @@ export default class UserStore{
 
     logout = () => {
         store.commonStore.setToken(null);
-        this.user = null;
-        router.navigate('/');
+        this.user = null
+        router.navigate('/')
     }
 
     getUser = async () => {
@@ -54,7 +54,7 @@ export default class UserStore{
             runInAction(() => this.user = user);
             this.startRefreshTokenTimer(user);
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
     }
 
@@ -79,7 +79,7 @@ export default class UserStore{
             router.navigate('/activities');
             //store.modalStore.closeModal();
         } catch (error) {
-            console.log(error);
+            console.log(error)
             runInAction(() => this.fbLoading = false);
         }
     }
@@ -92,7 +92,25 @@ export default class UserStore{
             store.commonStore.setToken(user.token);
             this.startRefreshTokenTimer(user);
         } catch (error) {
-            console.log(error);
+            console.log(error)
+        }
+    }
+
+    sendPasswordResetEmail = async (email: string) => {
+        try {
+            await agent.Account.sendPasswordResetLink(email)
+            router.navigate('/');
+        } catch (error) {
+            throw error
+        }
+    }
+
+    resetPassword = async (values: RecoverFormValues) => {
+        try {
+            await agent.Account.resetPassword(values);
+            router.navigate('/');
+        } catch (error) {
+            throw error
         }
     }
 
