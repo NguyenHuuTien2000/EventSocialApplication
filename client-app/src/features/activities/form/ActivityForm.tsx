@@ -27,13 +27,15 @@ export default observer(function ActivityForm() {
 
   const [activity, setActivity] = useState<ActivityFormValues>(new ActivityFormValues());
 
+  const message = "This field can only contain letters and numbers"
+
   const validationSchema = Yup.object({
-    title: Yup.string().required("Title is required"),
+    title: Yup.string().required("Title is required").matches(/^[a-zA-Z0-9 ]*$/, message),
     category: Yup.string().required("Category is required"),
-    description: Yup.string().required("Description is required"),
+    description: Yup.string().required("Description is required").matches(/^[a-zA-Z0-9 ]*$/, message),
     date: Yup.string().required("Date is required"),
-    city: Yup.string().required("City is required"),
-    venue: Yup.string().required("Venue is required"),
+    city: Yup.string().required("City is required").matches(/^[a-zA-Z0-9 ]*$/, message),
+    venue: Yup.string().required("Venue is required").matches(/^[a-zA-Z0-9 ]*$/, message),
   })
 
   useEffect(() => {

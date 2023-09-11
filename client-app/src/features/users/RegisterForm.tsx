@@ -14,8 +14,8 @@ export default observer(function RegisterForm() {
             onSubmit={(values, { setErrors }) => 
                 userStore.register(values).catch(error => setErrors({error}))}
             validationSchema={Yup.object({
-                displayName: Yup.string().required(),
-                username: Yup.string().required(),
+                displayName: Yup.string().required().matches(/^[a-zA-Z0-9 ]*$/, "No special characters allowed"),
+                username: Yup.string().required().matches(/^[a-zA-Z0-9 ]*$/, "No special characters allowed"),
                 email: Yup.string().required().email(),
                 password: Yup.string().required()
             })}>

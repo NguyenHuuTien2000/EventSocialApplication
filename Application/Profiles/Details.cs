@@ -30,9 +30,28 @@ namespace Application.Profiles
 
             public async Task<Result<Profile>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var HostedEventsCount = _context.Activities
+                    .Where(x => x.Attendees.Any(a => a.AppUser.UserName == request.Username && a.IsHost))
+                    .Count();
+
+                var JoinedEventsCount = _context.Activities
+                    .Where(x => x.Attendees.Any(a => a.AppUser.UserName == request.Username))
+                    .Count();
+
+                var upcomingEvent = _context.Activities
+                    .OrderBy(x => x.Date)
+                    .Where(x => x.Attendees.Any(a => a.AppUser.UserName == request.Username && a.IsHost))
+                    .FirstOrDefault();
+
                 var user = await _context.Users
                     .ProjectTo<Profile>(_mapper.ConfigurationProvider, new { currentUsername = _userAccessor.GetUsername() })
                     .SingleOrDefaultAsync(x => x.Username == request.Username);
+
+                user.HostedEventsCount = HostedEventsCount;
+                user.JoinedEventsCount = JoinedEventsCount;
+                
+                user.EventId = upcomingEvent.Id;
+                user.EventDate = upcomingEvent?.Date.ToString("dd/MM/yyyy");
                 
                 return Result<Profile>.Success(user);
             }

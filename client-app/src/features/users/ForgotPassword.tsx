@@ -7,6 +7,9 @@ import SuccessModal from "../../app/common/modals/SuccessModal";
 
 export default function ForgotPassword() {
   const {userStore, modalStore} = useStore()
+
+  const message = "Password reset email sent, please check your email (including junk) for a password reset link"
+
   return (
     <Segment placeholder>
       <Header icon>
@@ -21,7 +24,7 @@ export default function ForgotPassword() {
           initialValues={{email: '', error: null}}
           onSubmit={(values, {setErrors}) => 
           userStore.sendPasswordResetEmail(values.email).then(() => 
-          modalStore.openModal(<SuccessModal message="Password reset email sent" />)).catch(error => 
+          modalStore.openModal(<SuccessModal message={message} />)).catch(error => 
             setErrors({error: error.response.data}))}
           >
             {({handleSubmit, isSubmitting, errors}) => (

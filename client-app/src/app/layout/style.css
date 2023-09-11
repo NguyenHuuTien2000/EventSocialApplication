@@ -43,9 +43,21 @@ body {
 }
 
 .password-icon {
-  position: absolute;
-  right: 10px;
-  top: 44%;
+  float: right;
+  z-index: 2;
+  position: relative;
+  margin-bottom: 10px;
+  right: 5px;
+  top: -28px;
+}
+
+.search-bar {
+  width: 300px !important;
+}
+
+.search-bar i {
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
 
 /*home page styles*/

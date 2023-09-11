@@ -9,6 +9,10 @@ export interface Profile {
     following: boolean
     followersCount: number
     followingCount: number
+    joinedEventsCount: number
+    hostedEventsCount: number
+    eventId: string
+    eventDate: string
 }
 
 export class Profile implements Profile {

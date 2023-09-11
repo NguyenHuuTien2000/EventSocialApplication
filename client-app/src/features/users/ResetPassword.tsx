@@ -3,13 +3,15 @@ import { useStore } from "../../app/stores/store"
 import useQuery from "../../app/util/hooks"
 import * as Yup from "yup"
 import { ErrorMessage, Formik } from "formik"
-import MyTextInput from "../../app/common/form/MyTextInput"
 import SuccessModal from "../../app/common/modals/SuccessModal"
+import MyPasswordInput from "../../app/common/form/MyPassowordInput"
 
 export default function ResetPassword() {
     const {userStore, modalStore} = useStore()
     const email = useQuery().get("email") as string
     const token = useQuery().get("token") as string
+
+    const message = "Password has been reset, you can now login"
 
     return (
       <Segment placeholder textAlign="center">
@@ -22,16 +24,16 @@ export default function ResetPassword() {
             initialValues={{token: token, email: email, password: '', error: null}}
             onSubmit={(values, { setErrors }) => 
               userStore.resetPassword(values).then(() => 
-              modalStore.openModal(<SuccessModal message="Password reset" />))
+              modalStore.openModal(<SuccessModal message={message} />))
               .catch(error => setErrors({error}))}
             validationSchema={Yup.object({
-              password: Yup.string().required().equals([Yup.ref("confirm-password")], "Passwords must match")
+              "confirm-password": Yup.string().required().equals([Yup.ref("password")], "Passwords must match")
             })}
             >
               {({handleSubmit, isSubmitting, errors}) => (
                 <Form className="ui form" onSubmit={handleSubmit}>
-                  <MyTextInput name="password" placeholder="New Password" type="password"/>
-                  <MyTextInput name="confirm-password" placeholder="Confirm New Password" type="password" />
+                  <MyPasswordInput name="password" placeholder="New Password"/>
+                  <MyPasswordInput name="confirm-password" placeholder="Confirm New Password"/>
                   <ErrorMessage
                     name="error" render={() => 
                     <Label style={{ marginBottom: 10 }} basic color="red" content={errors.error} />} />

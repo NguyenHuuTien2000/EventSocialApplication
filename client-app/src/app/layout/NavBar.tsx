@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
 import { Fragment } from "react";
+import ActivitySearchBar from "../../features/activities/form/ActivitySearchBar";
 
 export default observer(function NavBar() {
   const {userStore: {user, logout, isLoggedIn}} = useStore()
@@ -16,6 +17,9 @@ export default observer(function NavBar() {
         </Menu.Item>
         {isLoggedIn && (
           <Fragment>
+            <Menu.Item>
+              <ActivitySearchBar />
+            </Menu.Item>
             <Menu.Item>
               <Button as={NavLink} to="/createActivity" color="teal" content="Create Event" />
             </Menu.Item>

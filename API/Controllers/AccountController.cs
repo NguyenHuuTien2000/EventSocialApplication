@@ -230,8 +230,12 @@ namespace API.Controllers
             
             if (user == null) return Unauthorized();
 
-            var oldToken = user.RefreshTokens.Single(x => x.Token == refreshToken);
+            var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
+
             if (oldToken != null && !oldToken.IsActive) return Unauthorized();
+
+            if (oldToken != null) oldToken.Revoked = DateTime.UtcNow;
+            
             return CreateUserObject(user);
         }
 

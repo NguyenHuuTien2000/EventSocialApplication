@@ -2,16 +2,18 @@ import { Divider, Grid, Header, Item, Segment, Statistic } from "semantic-ui-rea
 import { Profile } from "../../app/models/profile";
 import { observer } from "mobx-react-lite";
 import FollowButton from "./FollowButton";
+import { Link } from "react-router-dom";
 
 interface Props {
   profile: Profile
 }
 
 export default observer(function ProfileHeader({ profile }: Props) {
+
   return (
     <Segment>
-      <Grid>
-        <Grid.Column width={12}>
+      <Grid divided>
+        <Grid.Column width={8}>
           <Item.Group>
             <Item>
               <Item.Image size="small" circular src={profile.image || `/assets/user.png`} />
@@ -20,6 +22,14 @@ export default observer(function ProfileHeader({ profile }: Props) {
               </Item.Content>
             </Item>
           </Item.Group>
+        </Grid.Column>
+        <Grid.Column width={4}>
+          <Item>
+            <Header as={"h4"}>Events hosted:&emsp;{profile.hostedEventsCount}</Header>
+            <Header as={"h4"}>Events joined:&emsp;{profile.joinedEventsCount}</Header>
+            <Header as={"h4"}>Upcoming event hosted: {profile.eventDate}</Header>
+            <Link to={`/activities/${profile.eventId}`}>Click here for more details</Link>
+          </Item>
         </Grid.Column>
         <Grid.Column width={4}>
           <Statistic.Group widths={2}>
