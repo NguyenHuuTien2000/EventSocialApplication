@@ -1,7 +1,5 @@
-using Application.Interfaces;
 using Application.Photos;
 using Microsoft.AspNetCore.Mvc;
-using Persistence;
 
 namespace API.Controllers
 {

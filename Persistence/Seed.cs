@@ -1,5 +1,10 @@
+using System.Globalization;
+using System.Text;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
@@ -12,9 +17,9 @@ namespace Persistence
             {
                 var users = new List<AppUser>
                 {
-                    new AppUser{DisplayName="Yukari", UserName="yukari", Email="gap@test.com"},
-                    new AppUser{DisplayName="Maribel", UserName="maribel", Email="mari@test.com"},
-                    new AppUser{DisplayName="John", UserName="john", Email="john@test.com"},
+                    new() {DisplayName="Yukari", UserName="yukari", Email="gap@test.com"},
+                    new() {DisplayName="Maribel", UserName="maribel", Email="mari@test.com"},
+                    new() {DisplayName="John", UserName="john", Email="john@test.com"},
                 };
 
                 foreach (var user in users)
@@ -237,6 +242,158 @@ namespace Persistence
                 };
 
                 await context.Activities.AddRangeAsync(activities);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static async Task SeedUsers(DataContext context, UserManager<AppUser> userManager)
+        {
+            if (userManager.Users.Count() <= 10)
+            {
+                using var reader = new StreamReader("../Persistence/MOCK_DATA.csv");
+
+                using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+                var records = csv.GetRecords<dynamic>();
+                var users = new List<AppUser>();
+
+                foreach (var record in records)
+                {
+                    string displayName = record.DisplayName;
+                    string email = record.Email;
+                    string userName = record.UserName;
+                    string bio = record.Bio;
+
+                    var user = new AppUser
+                    {
+                        DisplayName = displayName,
+                        Email = email,
+                        UserName = userName,
+                        Bio = bio,
+                        EmailConfirmed = true
+                    };
+                    
+                    await userManager.CreateAsync(user, "Pa$$w0rd");
+                }
+
+                users.AddRange(userManager.Users);
+
+                Random random = new Random();
+
+                foreach (var target in users)
+                {
+                    int followers = random.Next(7,33);
+                    foreach (var observer in users)
+                    {
+                        if (followers == 0) break;
+                        if (target.Id != observer.Id) {
+                            var following = new UserFollowing
+                            {
+                                Observer = observer,
+                                Target = target
+                            };
+                            followers--;
+                            context.UserFollowings.Add(following);
+                        }
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async static Task SeedAvatars(DataContext context, UserManager<AppUser> userManager)
+        {
+            if (context.Users.Where(u => u.Photos.Count() == 0).Count() > 1)
+            {
+                var users = userManager.Users.Include(u => u.Photos).ToList();
+                foreach (var user in users)
+                {
+                    if (user.Photos == null || user.Photos.Count == 0)
+                    {
+                        var photo = new Photo
+                        {
+                            Url = "https://i.pravatar.cc/150?u=" + user.Email,
+                            IsMain = true,
+                            Id = Guid.NewGuid().ToString()
+                        };
+                        user.Photos.Add(photo);
+                    }
+                }
+            }
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedEvents(DataContext context)
+        {
+            if (context.Activities.Count() <= 10)
+            {
+                using var reader = new StreamReader("../Persistence/EVENTS_MOCK_DATA.csv");
+
+                using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+                var records = csv.GetRecords<dynamic>();
+
+                Random random = new Random();
+
+                string[] categories = { "music", "travel", "drinks", "culture", "food", "film" };
+
+                var users = context.Users.ToList();
+
+                var activities = new List<Activity>();
+
+                foreach (var record in records)
+                {
+                    string title = record.Title;
+                    string description = record.Description;
+                    string city = record.City;
+                    string venue = record.Venue;
+
+                    string isMonth = record.IsMonth;
+
+                    int numTime = random.Next(-8, 8);
+                    var date = isMonth.Equals("TRUE")? DateTime.UtcNow.AddMonths(numTime): DateTime.UtcNow.AddDays(numTime);
+
+                    var activity = new Activity
+                    {
+                        Title = title,
+                        Description = description,
+                        City = city,
+                        Venue = venue,
+                        Date = date,
+                        Category = categories[random.Next(0, 6)]
+                    };
+                    activities.Add(activity);
+                }
+                await context.Activities.AddRangeAsync(activities);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static async Task SeedAttendees(DataContext context)
+        {
+            if (context.Activities.Where(a => a.Attendees.Count() <= 5).Count() > 0)
+            {
+                var activities = context.Activities.ToList();
+                var users = context.Users.ToList();
+                foreach (var activity in activities)
+                {
+                    if (activity.Attendees.Count() <= 7)
+                    {
+                        activity.Attendees = new List<ActivityAttendee>();
+                        Random random = new Random();
+                        int start = random.Next(0, 7);
+                        int end = random.Next(25, 33);
+                        for (int i = start; i < end; i++)
+                        {
+                            activity.Attendees.Add(new ActivityAttendee
+                            {
+                                AppUser = users[i],
+                                IsHost = i == start 
+                            });
+                        }
+                    }
+                }
                 await context.SaveChangesAsync();
             }
         }

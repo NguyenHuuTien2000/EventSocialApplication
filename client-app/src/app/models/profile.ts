@@ -11,8 +11,8 @@ export interface Profile {
     followingCount: number
     joinedEventsCount: number
     hostedEventsCount: number
-    eventId: string
-    eventDate: string
+    eventId?: string
+    eventDate?: string
 }
 
 export class Profile implements Profile {

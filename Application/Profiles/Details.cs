@@ -50,8 +50,12 @@ namespace Application.Profiles
                 user.HostedEventsCount = HostedEventsCount;
                 user.JoinedEventsCount = JoinedEventsCount;
                 
-                user.EventId = upcomingEvent.Id;
-                user.EventDate = upcomingEvent?.Date.ToString("dd/MM/yyyy");
+                if (upcomingEvent != null)
+                {
+                    user.EventId = upcomingEvent.Id;
+                    user.EventDate = upcomingEvent?.Date.ToString("dd/MM/yyyy");
+                }
+
                 
                 return Result<Profile>.Success(user);
             }

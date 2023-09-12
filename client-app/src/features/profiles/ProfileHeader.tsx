@@ -3,13 +3,13 @@ import { Profile } from "../../app/models/profile";
 import { observer } from "mobx-react-lite";
 import FollowButton from "./FollowButton";
 import { Link } from "react-router-dom";
+import { Fragment } from "react";
 
 interface Props {
   profile: Profile
 }
 
 export default observer(function ProfileHeader({ profile }: Props) {
-
   return (
     <Segment>
       <Grid divided>
@@ -27,8 +27,14 @@ export default observer(function ProfileHeader({ profile }: Props) {
           <Item>
             <Header as={"h4"}>Events hosted:&emsp;{profile.hostedEventsCount}</Header>
             <Header as={"h4"}>Events joined:&emsp;{profile.joinedEventsCount}</Header>
-            <Header as={"h4"}>Upcoming event hosted: {profile.eventDate}</Header>
-            <Link to={`/activities/${profile.eventId}`}>Click here for more details</Link>
+            {profile.eventDate !== null? (
+              <Fragment>
+                <Header as={"h4"}>Upcoming event hosted: {profile.eventDate}</Header>
+                <Link to={`/activities/${profile.eventId}`}>Click here for more details</Link>
+              </Fragment>
+            ) : (
+              <Header as={"h4"}>This user has not hosted any events</Header>
+            )}
           </Item>
         </Grid.Column>
         <Grid.Column width={4}>
