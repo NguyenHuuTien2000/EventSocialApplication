@@ -249,7 +249,7 @@ namespace Persistence
         {
             if (userManager.Users.Count() <= 10)
             {
-                using var reader = new StreamReader("../Persistence/MOCK_DATA.csv");
+                using var reader = new StreamReader("Persistence/MOCK_DATA.csv");
 
                 using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
@@ -327,7 +327,7 @@ namespace Persistence
         {
             if (context.Activities.Count() <= 10)
             {
-                using var reader = new StreamReader("../Persistence/EVENTS_MOCK_DATA.csv");
+                using var reader = new StreamReader("Persistence/EVENTS_MOCK_DATA.csv");
 
                 using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
@@ -371,29 +371,26 @@ namespace Persistence
 
         public static async Task SeedAttendees(DataContext context)
         {
-            var dirs = Directory.GetDirectories("../");
-            foreach (var dir in dirs )
-            {
-                Console.WriteLine(dir);
-            }
             if (context.Activities.Where(a => a.Attendees.Count() <= 5).Count() > 0)
             {
                 var activities = context.Activities.ToList();
                 var users = context.Users.ToList();
+                Random random = new Random();
+
                 foreach (var activity in activities)
                 {
+                    activity.Attendees = activity.Attendees ?? new List<ActivityAttendee>();
                     if (activity.Attendees.Count() <= 7)
                     {
-                        activity.Attendees = new List<ActivityAttendee>();
-                        Random random = new Random();
-                        int start = random.Next(0, 7);
-                        int end = random.Next(25, 33);
-                        for (int i = start; i < end; i++)
+                        bool noHost = !activity.Attendees.Any(a => a.IsHost);
+                        for (int i = 0; i < random.Next(7, 34); i++)
                         {
+                            int index = random.Next(0, users.Count());
+                            if (activity.Attendees.Any(a => a.AppUser.Id == users[index].Id)) continue;
                             activity.Attendees.Add(new ActivityAttendee
                             {
-                                AppUser = users[i],
-                                IsHost = i == start 
+                                AppUser = users[index],
+                                IsHost = noHost && i == 0
                             });
                         }
                     }
