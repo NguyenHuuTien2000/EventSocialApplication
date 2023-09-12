@@ -327,7 +327,7 @@ namespace Persistence
         {
             if (context.Activities.Count() <= 10)
             {
-                using var reader = new StreamReader("Persistence/EVENTS_MOCK_DATA.csv");
+                using var reader = new StreamReader("../Persistence/EVENTS_MOCK_DATA.csv");
 
                 using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
@@ -381,7 +381,7 @@ namespace Persistence
                     activity.Attendees = activity.Attendees ?? new List<ActivityAttendee>();
                     if (activity.Attendees.Count() <= 7)
                     {
-                        bool noHost = !activity.Attendees.Any(a => a.IsHost);
+                        bool noHost = true;
                         for (int i = 0; i < random.Next(7, 34); i++)
                         {
                             int index = random.Next(0, users.Count());
@@ -389,8 +389,9 @@ namespace Persistence
                             activity.Attendees.Add(new ActivityAttendee
                             {
                                 AppUser = users[index],
-                                IsHost = noHost && i == 0
+                                IsHost = noHost
                             });
+                            noHost = false;
                         }
                     }
                 }

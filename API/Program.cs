@@ -34,7 +34,7 @@ app.UseCsp(opt => opt
     .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
     .FormActions(s => s.Self())
     .FrameAncestors(s => s.Self())
-    .ImageSources(s => s.Self().CustomSources("blob:", "data:", "https://res.cloudinary.com", "https://platform-lookaside.fbsbx.com"))
+    .ImageSources(s => s.Self().CustomSources("blob:", "data:", "https://res.cloudinary.com", "https://platform-lookaside.fbsbx.com", "https://i.pravatar.cc"))
     .ScriptSources(s => s.Self().CustomSources("https://connect.facebook.net"))
 );
 
@@ -75,10 +75,10 @@ try
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     await context.Database.MigrateAsync();
     await Seed.SeedData(context, userManager);
-    await Seed.SeedUsers(context, userManager);
-    await Seed.SeedAvatars(context, userManager);
-    await Seed.SeedEvents(context);
-    await Seed.SeedAttendees(context);
+    // await Seed.SeedUsers(context, userManager);
+    // await Seed.SeedAvatars(context, userManager);
+    // await Seed.SeedEvents(context);
+    // await Seed.SeedAttendees(context);
 }
 catch (Exception ex)
 {

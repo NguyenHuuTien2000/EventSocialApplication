@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers
 {
@@ -129,6 +130,12 @@ namespace API.Controllers
             if (!result.Succeeded) return BadRequest("Problem registering user");
 
             var origin = Request.Headers["Origin"];
+
+            if (origin.IsNullOrEmpty())
+            {
+                origin = "https://esapplication.onrender.com";
+            }
+
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
@@ -163,6 +170,11 @@ namespace API.Controllers
 
             var origin = Request.Headers["Origin"];
 
+            if (origin.IsNullOrEmpty())
+            {
+                origin = "https://esapplication.onrender.com";
+            }
+
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
@@ -181,6 +193,11 @@ namespace API.Controllers
             if (user == null) return Unauthorized("User not found");
 
             var origin = Request.Headers["Origin"];
+
+            if (origin.IsNullOrEmpty())
+            {
+                origin = "https://esapplication.onrender.com";
+            }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
