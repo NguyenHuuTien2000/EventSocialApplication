@@ -348,10 +348,9 @@ namespace Persistence
                     string city = record.City;
                     string venue = record.Venue;
 
-                    string isMonth = record.IsMonth;
-
                     int numTime = random.Next(-8, 8);
-                    var date = isMonth.Equals("TRUE")? DateTime.UtcNow.AddMonths(numTime): DateTime.UtcNow.AddDays(numTime);
+                    bool isMonth = random.Next(0, 2) == 1;
+                    var date = isMonth? DateTime.UtcNow.AddMonths(numTime) : DateTime.UtcNow.AddDays(numTime);
 
                     var activity = new Activity
                     {
