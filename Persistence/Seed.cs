@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using CsvHelper;
 using Domain;
 using Microsoft.AspNetCore.Identity;
@@ -370,6 +371,11 @@ namespace Persistence
 
         public static async Task SeedAttendees(DataContext context)
         {
+            var dirs = Directory.GetDirectories("../");
+            foreach (var dir in dirs )
+            {
+                Console.WriteLine(dir);
+            }
             if (context.Activities.Where(a => a.Attendees.Count() <= 5).Count() > 0)
             {
                 var activities = context.Activities.ToList();
