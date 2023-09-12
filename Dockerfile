@@ -6,6 +6,8 @@ COPY "Application/Application.csproj" "Application/Application.csproj"
 COPY "Domain/Domain.csproj" "Domain/Domain.csproj"
 COPY "Infrastructure/Infrastructure.csproj" "Infrastructure/Infrastructure.csproj"
 COPY "Persistence/Persistence.csproj" "Persistence/Persistence.csproj"
+COPY "Persistence/MOCK_DATA.csv" "Persistence/MOCK_DATA.csv"
+COPY "Persistence/EVENTS_MOCK_DATA.csv" "Persistence/EVENTS_MOCK_DATA.csv"
 COPY "API/API.csproj" "API/API.csproj"
 
 RUN dotnet restore "EventSocialApp.sln"

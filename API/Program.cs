@@ -1,4 +1,3 @@
-using System.Reflection;
 using API.Extensions;
 using API.Middleware;
 using API.SignalR;
@@ -69,8 +68,6 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-
-Console.WriteLine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
 try
 {
