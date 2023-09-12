@@ -250,7 +250,7 @@ namespace Persistence
         {
             if (userManager.Users.Count() <= 10)
             {
-                using var reader = new StreamReader("/app/Persistence/MOCK_DATA.csv");
+                using var reader = new StreamReader("../app/Persistence/MOCK_DATA.csv");
 
                 using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
@@ -328,7 +328,7 @@ namespace Persistence
         {
             if (context.Activities.Count() <= 10)
             {
-                using var reader = new StreamReader("/app/Persistence/EVENTS_MOCK_DATA.csv");
+                using var reader = new StreamReader("../app/Persistence/EVENTS_MOCK_DATA.csv");
 
                 using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
