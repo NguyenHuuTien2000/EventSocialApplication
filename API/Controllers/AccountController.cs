@@ -76,7 +76,17 @@ namespace API.Controllers
             var user = await _userManager.Users
                 .Include(p => p.Photos).FirstOrDefaultAsync(x => x.Email == fbInfo.Email);
             
-            if (user != null) return CreateUserObject(user);
+            if (user != null)
+            {
+                if (user.Photos.Any(p => p.Id.StartsWith("fb_")))
+                {
+                    var fbPhoto = user.Photos.FirstOrDefault(p => p.Id.StartsWith("fb_"));
+                    user.Photos.Remove(fbPhoto);
+                    fbPhoto.Url = fbInfo.Picture!.Data!.Url;
+                    user.Photos.Add(fbPhoto);
+                }
+                return CreateUserObject(user);
+            } 
 
             user = new AppUser
             {
