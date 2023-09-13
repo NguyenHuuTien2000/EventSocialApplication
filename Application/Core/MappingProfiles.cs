@@ -22,7 +22,7 @@ namespace Application.Core
                 .ForMember(dest => dest.FollowingCount, opt => opt.MapFrom(src => src.AppUser.Followings.Count))
                 .ForMember(dest => dest.Following, 
                     opt => opt.MapFrom(src => src.AppUser.Followers.Any(x => x.Observer.UserName == currentUsername)));
-            CreateMap<AppUser, Profiles.Profile>()
+            CreateMap<AppUser, Profile>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.FollowersCount, opt => opt.MapFrom(src => src.Followers.Count))
                 .ForMember(dest => dest.FollowingCount, opt => opt.MapFrom(src => src.Followings.Count))

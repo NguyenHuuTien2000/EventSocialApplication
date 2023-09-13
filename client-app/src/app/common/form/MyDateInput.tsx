@@ -1,5 +1,5 @@
 import { useField } from "formik"
-import { Form, Label } from "semantic-ui-react"
+import { Form } from "semantic-ui-react"
 import DatePicker, { ReactDatePickerProps } from "react-datepicker"
 
 export default function MyDateInput(props : Partial<ReactDatePickerProps>) {
@@ -13,7 +13,9 @@ export default function MyDateInput(props : Partial<ReactDatePickerProps>) {
              selected={(field.value && (new Date(field.value) || null))}
              onChange={(date : Date) => helpers.setValue(date)} />
             {meta.touched && meta.error ? (
-                <Label basic color='red'>{meta.error}</Label>
+                <p className="error-message">
+                    {meta.error}
+                </p>
             ): null}
         </Form.Field>
     )

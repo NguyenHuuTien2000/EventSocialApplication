@@ -60,6 +60,42 @@ body {
   cursor: pointer !important;
 }
 
+.field {
+  margin-bottom: 2em !important;
+}
+
+.error.field {
+  margin-bottom: 0 !important;
+}
+
+.error-message {
+  color: red;
+  margin: 0 !important;
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+  font-weight: bolder;
+}
+
+.main-error-message {
+  position: relative;
+  z-index: 3;
+  bottom: 14px;
+  margin-bottom: 0 !important;
+  color: red;
+  font-weight: bolder;
+}
+
+.password-segment .main-error-message{
+  text-align: center;
+}
+
+.reset-link {
+  display: block;
+  margin-top: 1.5em;
+}
+
+
+
 /*home page styles*/
 
 .masthead {

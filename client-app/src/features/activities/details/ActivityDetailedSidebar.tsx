@@ -8,10 +8,10 @@ interface Props {
   activity: Activity;
 }
 
-export default observer(function ActivityDetailedSidebar({
-  activity: { attendees, host },
-}: Props) {
+export default observer(function ActivityDetailedSidebar({activity: { attendees, host }}: Props) {
   if (!attendees) return null;
+  attendees = attendees.filter(a => a.username !== host!.username);
+  attendees.unshift(host!);
   return (
     <Fragment>
       <Segment

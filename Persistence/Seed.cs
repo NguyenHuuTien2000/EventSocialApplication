@@ -404,5 +404,26 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
         }
+
+        public static async Task ReorderHosts(DataContext context)
+        {
+            if (context.ActivityAttendees.First().IsHost) return;
+            var attendees = context.ActivityAttendees.ToList();
+            context.ActivityAttendees.RemoveRange(attendees);
+            foreach (var attendee in attendees.ToList())
+            {
+                if (attendee.IsHost)
+                {
+                    attendees.Remove(attendee);
+                    attendees.Insert(0, attendee);
+                }
+            }
+            foreach (var attendee in attendees)
+            {
+                Console.WriteLine(attendee.IsHost);
+            }
+            context.ActivityAttendees.AddRange(attendees);
+            await context.SaveChangesAsync();
+        }
     }
 }

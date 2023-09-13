@@ -1,6 +1,6 @@
 import { useField } from "formik";
 import { useState } from "react";
-import { Form, Icon, Label } from "semantic-ui-react";
+import { Form, Icon } from "semantic-ui-react";
 
 interface Props {
   placeholder: string;
@@ -22,9 +22,9 @@ export default function MyPasswordInput(props: Props) {
         name={passwordShown ? "eye slash" : "eye"}
       />
       {meta.touched && meta.error ? (
-        <Label style={{ marginTop: 10 }} basic color="red">
+        <p className="error-message">
           {meta.error}
-        </Label>
+        </p>
       ) : null}
     </Form.Field>
   );

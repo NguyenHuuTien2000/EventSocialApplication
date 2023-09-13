@@ -1,4 +1,4 @@
-import { Header, Button, Form, Label, Icon, Segment } from "semantic-ui-react";
+import { Header, Button, Form, Icon, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import { ErrorMessage, Formik } from "formik";
 import MyTextInput from "../../app/common/form/MyTextInput";
@@ -14,12 +14,12 @@ export default function ForgotPassword() {
     <Segment placeholder>
       <Header icon>
         <Icon name="user" />
-        User Search
+        Password Recovery
       </Header>
       <Segment.Inline className="password-segment">
         <Formik
           validationSchema={Yup.object({
-            email: Yup.string().required().email()
+            email: Yup.string().required("Email is required").email("Email is invalid")
           })}
           initialValues={{email: '', error: null}}
           onSubmit={(values, {setErrors}) => 
@@ -33,7 +33,7 @@ export default function ForgotPassword() {
               <MyTextInput name="email" placeholder="Email"/>
               <ErrorMessage
                 name="error" render={() => 
-                <Label style={{ marginBottom: 10 }} basic color="red" content={errors.error} />} />
+                  <p className="main-error-message">{errors.error}</p>} />
               <Button loading={isSubmitting} color="blue" content="Send" type="submit" fluid />
             </Form>
           )}

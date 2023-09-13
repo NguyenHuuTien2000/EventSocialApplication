@@ -84,6 +84,7 @@ namespace API.Controllers
                     user.Photos.Remove(fbPhoto);
                     fbPhoto.Url = fbInfo.Picture!.Data!.Url;
                     user.Photos.Add(fbPhoto);
+                    await _userManager.UpdateAsync(user);
                 }
                 return CreateUserObject(user);
             } 

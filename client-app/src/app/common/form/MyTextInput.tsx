@@ -1,5 +1,5 @@
 import { useField } from "formik"
-import { Form, Label } from "semantic-ui-react"
+import { Form } from "semantic-ui-react"
 
 interface Props {
     placeholder: string
@@ -16,7 +16,9 @@ export default function MyTextInput(props : Props) {
             <label>{props.label}</label>
             <input {...field} {...props}/>
             {meta.touched && meta.error ? (
-                <Label basic color='red'>{meta.error}</Label>
+                <p className="error-message">
+                    {meta.error}
+                </p>
             ): null}
         </Form.Field>
     )
