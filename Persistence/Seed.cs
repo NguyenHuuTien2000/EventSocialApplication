@@ -276,7 +276,14 @@ namespace Persistence
                 }
 
                 users.AddRange(userManager.Users);
+            }
+        }
 
+        public async static Task SeedFollowings(DataContext context, UserManager<AppUser> userManager)
+        {
+            if (context.UserFollowings.Count() <= 10)
+            {
+                var users = userManager.Users.ToList();
                 Random random = new Random();
 
                 foreach (var target in users)
@@ -296,7 +303,6 @@ namespace Persistence
                         }
                     }
                 }
-
                 await context.SaveChangesAsync();
             }
         }
