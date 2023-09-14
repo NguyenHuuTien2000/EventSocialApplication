@@ -1,5 +1,4 @@
 using Application.Activities;
-using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +45,12 @@ namespace API.Controllers
         public async Task<IActionResult> Attend(Guid id)
         {
             return HandleResult(await Mediator.Send(new UpdateAttendance.Command{Id = id}));
+        }
+
+        [HttpGet("dates")]
+        public async Task<IActionResult> GetDates(string username)
+        {
+            return HandleResult(await Mediator.Send(new GetDates.Query{ UserName = username }));
         }
 
     }

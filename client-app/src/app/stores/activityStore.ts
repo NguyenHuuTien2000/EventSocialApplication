@@ -1,5 +1,5 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
-import { Activity, ActivityFormValues } from "../models/activity";
+import { Activity, ActivityDates, ActivityFormValues } from "../models/activity";
 import agent from "../api/agent";
 import { format } from "date-fns";
 import { store } from "./store";
@@ -15,6 +15,7 @@ export default class ActivityStore {
   pagination : Pagination | null = null
   pagingParams = new PagingParams()
   predicate = new Map().set('all', true)
+  dates = new ActivityDates()
 
   constructor() {
     makeAutoObservable(this);
@@ -25,6 +26,7 @@ export default class ActivityStore {
         this.pagingParams = new PagingParams()
         this.activityRegistry.clear()
         this.loadActivities()
+        this.getDates()
       }
     )
   }
@@ -51,6 +53,10 @@ export default class ActivityStore {
       case 'isHost':
         resetPredicate()
         this.predicate.set('isHost', true)
+        break
+      case 'isFollowing':
+        resetPredicate()
+        this.predicate.set('isFollowing', true)
         break
       case 'startDate':
         this.predicate.delete('startDate')
@@ -268,5 +274,18 @@ export default class ActivityStore {
 
   activitiesIsEmpty() {
     return this.activityRegistry.size <= 0
+  }
+
+  getDates= async () => {
+    const user = store.userStore.user
+    try {
+      const result = await agent.Activities.getDates(user?.username!)
+      runInAction(() => {
+        this.dates.isGoing = new Set(result.isGoing)
+        this.dates.isHost = new Set(result.isHost)
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

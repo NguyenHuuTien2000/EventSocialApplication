@@ -94,7 +94,23 @@ body {
   margin-top: 1.5em;
 }
 
+.hosted-date {
+  background-color: #f2711c;
+  color: white;
+}
 
+.going-date {
+  background-color: #21ba45;
+  color: white ;
+}
+
+.react-calendar__tile--active {
+  border: 1px solid red !important;
+}
+
+.react-calendar__tile--now {
+  border: 1px dotted black !important;
+}
 
 /*home page styles*/
 
@@ -126,3 +142,17 @@ body {
 
 
 /*end home page styles*/
+
+.calendar {
+  padding: 0 !important;
+}
+
+.note-buttons {
+  border-radius: 0 !important;
+  pointer-events: none;
+  font-weight: normal !important;
+}
+
+.notes {
+  margin: 10px;
+}

@@ -43,3 +43,8 @@ export interface Activity {
       }
     }
   }
+
+  export class ActivityDates {
+    isGoing: Set<string> = new Set()
+    isHost: Set<string> = new Set()
+  }

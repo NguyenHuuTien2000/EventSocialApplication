@@ -3,6 +3,7 @@ using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Activities
@@ -54,6 +55,13 @@ namespace Application.Activities
                 if (request.Params.IsHost && !request.Params.IsGoing) 
                 {
                     query = query.Where(x => x.HostUsername == _userAccessor.GetUsername());
+                }
+
+                if (request.Params.IsFollowing && !request.Params.IsHost && !request.Params.IsGoing)
+                {
+                    var hosts = await _context.UserFollowings.Where(x => x.Observer.UserName == _userAccessor.GetUsername()).Select(u => u.Target.UserName).ToListAsync();
+                    query = query.Where(x => x.Attendees
+                        .Any(a => hosts.Contains(a.Username) && x.HostUsername != _userAccessor.GetUsername()));
                 }
 
                 return Result<PagedList<ActivityDto>>.Success(

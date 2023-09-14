@@ -44,7 +44,11 @@ export default observer(function ActivityDashboard() {
         )}
       </Grid.Column>
       <Grid.Column width={6}>
-        <ActivityFilters />
+        {activityStore.loadingInitial && !loadingNext ? (
+          <Loader active inline="centered" />
+        ) : (
+          <ActivityFilters />
+        )}
       </Grid.Column>
       <Grid.Column width={10}>
         <Loader active={loadingNext} />
